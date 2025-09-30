@@ -3,9 +3,18 @@ using Xunit;
 public class CheckerTests
 {
     [Fact]
-    public void NotOkWhenAnyVitalIsOffRange()
+    public void CheckVitals_ReturnsExpectedStatus(
+        float temperature, int pulseRate, int spo2, VitalsChecker.VitalStatus expectedStatus)
     {
-        Assert.False(Checker.VitalsOk(99f, 102, 70));
-        Assert.True(Checker.VitalsOk(98.1f, 70, 98));
+        var vitals = new VitalsChecker.Vitals
+        {
+            Temperature = temperature,
+            PulseRate = pulseRate,
+            SpO2 = spo2
+        };
+
+        var status = VitalsChecker.CheckVitals(vitals);
+
+        Assert.Equal(expectedStatus, status);
     }
 }
