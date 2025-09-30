@@ -17,18 +17,27 @@ class VitalsChecker
         SpO2Low
     }
 
-    // Pure function: returns the status without any I/O
+    // CCN reduced by delegating each check
     public static VitalStatus CheckVitals(Vitals vitals)
     {
-        if (vitals.Temperature > 102 || vitals.Temperature < 95)
+        if (IsTemperatureCritical(vitals))
             return VitalStatus.TemperatureCritical;
 
-        if (vitals.PulseRate < 60 || vitals.PulseRate > 100)
+        if (IsPulseOutOfRange(vitals))
             return VitalStatus.PulseOutOfRange;
 
-        if (vitals.SpO2 < 90)
+        if (IsSpO2Low(vitals))
             return VitalStatus.SpO2Low;
 
         return VitalStatus.Normal;
     }
+
+    private static bool IsTemperatureCritical(Vitals v) =>
+        v.Temperature > 102 || v.Temperature < 95;
+
+    private static bool IsPulseOutOfRange(Vitals v) =>
+        v.PulseRate < 60 || v.PulseRate > 100;
+
+    private static bool IsSpO2Low(Vitals v) =>
+        v.SpO2 < 90;
 }
